@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet" type='text/css'>
+    <link rel="stylesheet" href="{% static '/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  </head>
+  <body>
+    
+    <!--- To Add or Edit Record--->
+    <section class="add-section" id="Create">
+      <div class="container">
+        <div class="col-md-12 main_1">
+          <div class="col-md-12 for_title">
+            <h2>New Records</h2>
+          </div>
+          <!-- <form class="f_1"> -->
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Passenger Name </label>
+                <input type="text" class="form-control" id="pass_name" placeholder="Enter passenger Name">
+              </div>
+              <div class="form-group">
+                <label for="pass_no">Passport Number </label>
+                <input type="text" class="form-control" id="pass_no" placeholder="Enter Passport Number">
+              </div>
+              <div class="form-group">
+                <label for="departure_airport">Departure Airport </label>
+                <input type="text" class="form-control" id="departure_airport" placeholder="Enter Departure Airport">
+              </div>
+              <div class="form-group">
+                <label for="arrival_airport">Arrival Airport </label>
+                <input type="text" class="form-control" id="arrival_airport" placeholder="Enter Arrival Airport">
+              </div>
+              <div class="form-group">
+                <label for="flight_no">Flight Number </label>
+                <input type="text" class="form-control" id="flight_no" placeholder="Enter Flight Number">
+              </div>
+              <input type='hidden' id='hiddenurloftheimage'>
+              <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="images">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <img src="{% static '/images/dummy.jpg' %}" alt="Objets" id='scancheckimage' class="img_style">
+              <br>
+              <span class="success blink_me" id='waitforaialgorithm'>Please wait while the AI algorithm search for the result</span>
+            </div>
+            <div class="col-md-12 for_btn">
+              <button type="button" class="btn btn-default" id='scanpassengers'>Scan</button>
+            </div>
+            <div class="col-md-12 for_btn">
+              <button type="button" class="btn btn-default" id='saverecord'>Save Record</button>
+            </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </section>
+    <section class="add-section" id="Edit1">
+      <div class="container">
+        <div class="col-md-12 main_1">
+          <div class="col-md-12 for_title">
+            <h2>Edit Record</h2>
+          </div>
+          <form class="f_1" >
+            <input type='hidden' name='edit_passengerid' id='edit_passengerid'>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Passenger Name </label>
+                <input type="text" class="form-control" id="pass_name_edit" placeholder="Enter passenger Name">
+              </div>
+              <div class="form-group">
+                <label for="pass_no">Passport Number </label>
+                <input type="text" class="form-control" id="pass_no_edit" placeholder="Enter Passport Number">
+              </div>
+              <div class="form-group">
+                <label for="departure_airport">Departure Airport </label>
+                <input type="text" class="form-control" id="departure_airport_edit" placeholder="Enter Departure Airport">
+              </div>
+              <div class="form-group">
+                <label for="arrival_airport">Arrival Airport </label>
+                <input type="text" class="form-control" id="arrival_airport_edit" placeholder="Enter Arrival Airport">
+              </div>
+              <div class="form-group">
+                <label for="flight_no">Flight Number </label>
+                <input type="text" class="form-control" id="flight_no_edit" placeholder="Enter Flight Number">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <img src="{% static '/images/danger.png' %}" alt="Objets" class="img_style" id='editimagerecorddisplay'>
+              <!-- <br>
+              <span class="danger blink_me">*Dangerous objects detected. This image will be saved automatically to the screening object records.</span> -->
+            </div>
+            <div class="col-md-12 for_btn">
+              <button type="button" class="btn btn-default" id='editpassengerdetails'>Edit Record</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    <!-- Table(Records Listing) section ---->
+    <section class="record-sec">
+      <div class="container">
+        <div class="col-md-12 for_addbtn">
+          <button type="submit" class="btn btn-default" id="addrecord">Add Record <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="col-md-12">
+          <table class="table table-bordered">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Passenger Name</th>
+                <th scope="col">Passport No.</th>
+                <th scope="col">Flight From</th>
+                <th scope="col">Flight To</th>
+                <th scope="col">Flight Number</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody id='passengertable'>
+              
+              
+              <!-- <tr>
+                <th scope="row">1</th>
+                <td>Marko</td>
+                <td>PS6575738</td>
+                <td>Dubai</td>
+                <td>Toronto</td>
+                <td>A27 1011</td>
+                <td>
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                </td>
+                <td>
+                  <i class="fa fa-trash" aria-hidden="true" onclick="return confirm('Are you sure you want to Delete?');" id="btnDelete"></i>
+                </td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <script>
+      $(document).ready(function() {
+        $("#saverecord").hide();
+        var returntable = "";
+        var autoid = 1;
+        $.ajax({
+          type: 'GET',
+          url: 'http://127.0.0.1:8000/passengerdetails/',
+          success: function(data) {
+            //alert(JSON.stringify(data));
+            $.each(data, function (key, val) {
+              returntable += "<tr><td>"+autoid+"</td><td>"+val.passenger_name+"</td><td>"+val.passport_number+"</td><td>"+val.dept_airport+"</td><td>"+val.arrive_airport+"</td><td>"+val.flight_number+"</td><td><i class='fa fa-edit editPassenger' passenger-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td><td><i class='fa fa-trash deletepassenger' delete-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td></tr>";
+                autoid = autoid + 1;
+                // alert(val.id);
+            });
+            $("#passengertable").html(returntable);
+          },
+          error: function(error) {
+            alert("Error while retriving flight passenger list");
+          }
+        });
+
+        var datafile = "{% static '/detectfolder/' %}";
+        $(document).on('click','#scanpassengers',function(){
+            var imagename = $('#image').val().match(/[^\\/]*$/)[0];
+            $("#waitforaialgorithm").show();
+            // alert(imagename);
+            $.ajax({
+              type: 'GET',
+              url: 'http://127.0.0.1:8000/detectapi/?myvalue='+imagename,
+              success: function(data) {
+                //alert(data + ".jpg");
+                $("#waitforaialgorithm").hide();
+                $('#scancheckimage').attr('src', datafile + data+".jpg");
+                $("#hiddenurloftheimage").val(data+".jpg");
+                $("#scanpassengers").hide();
+                $("#saverecord").show();
+              },
+              error: function(error) {
+                alert("Error while scanning images");
+                $("#waitforaialgorithm").hide();
+              }
+            });
+        });
+
+        $(document).on('click','#saverecord',function(){
+            alert("Record created");
+            var returntable = "";
+            var autoid = 1;
+            var pass_name = $("#pass_name").val();
+            var pass_no = $("#pass_no").val();
+            var departure_airport = $("#departure_airport").val();
+            var arrival_airport = $("#arrival_airport").val();
+            var flight_no = $("#flight_no").val();
+            var url_image = $("#hiddenurloftheimage").val();
+            var data = {'passenger_name':pass_name,'passport_number':pass_no,'dept_airport':departure_airport,'arrive_airport':arrival_airport,'flight_number':flight_no,'url_image':url_image}
+            $.ajax({
+              type: 'POST',
+              data: data,
+              dataType:JSON,
+              url: 'http://127.0.0.1:8000/passengerdetails/',
+              success: function(data) {
+              //alert(JSON.stringify(data));
+              
+              },
+              error: function(error) {
+                // alert("Error while scanning flight passenger -------->" + JSON.stringify(error));
+                $("#Create").toggle();
+                $.ajax({
+                  type: 'GET',
+                  url: 'http://127.0.0.1:8000/passengerdetails/',
+                  success: function(data) {
+                    //alert(JSON.stringify(data));
+                    $.each(data, function (key, val) {
+                      returntable += "<tr><td>"+autoid+"</td><td>"+val.passenger_name+"</td><td>"+val.passport_number+"</td><td>"+val.dept_airport+"</td><td>"+val.arrive_airport+"</td><td>"+val.flight_number+"</td><td><i class='fa fa-edit editPassenger' passenger-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td><td><i class='fa fa-trash deletepassenger' delete-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td></tr>";
+                        autoid = autoid + 1;
+                        // alert(val.id);
+                    });
+                    $("#passengertable").html(returntable);
+                  },
+                  error: function(error) {
+                    alert("Error while retriving flight passenger list");
+                  }
+                });
+              }
+            });
+        });
+
+        var datafile = "{% static '/detectfolder/' %}";
+        $(document).on('click', '.editPassenger',function(){
+            var passengerid = $(this).attr("passenger-id");
+            // alert(passengerid);
+            $.ajax({
+              type: 'GET',
+              url: 'http://127.0.0.1:8000/passengerdetails/'+passengerid,
+              success: function(data) {
+                // alert(JSON.stringify(data.id));
+                var pass_name = $("#pass_name_edit").val(data.passenger_name);
+                var pass_no = $("#pass_no_edit").val(data.passport_number);
+                var departure_airport = $("#departure_airport_edit").val(data.dept_airport);
+                var arrival_airport = $("#arrival_airport_edit").val(data.arrive_airport);
+                var flight_no = $("#flight_no_edit").val(data.flight_number);
+                $("#edit_passengerid").val(data.id);
+                $("#editimagerecorddisplay").attr('src',datafile + data.url_image);
+                $("#Edit1").toggle();
+              },
+              error: function(error) {
+                alert("Error while retriving flight passenger edit list");
+              }
+            });
+        });
+
+        $(document).on('click', '#editpassengerdetails',function(){
+            var returntable = "";
+            var autoid = 1;
+            var pass_name = $("#pass_name_edit").val();
+            var pass_no = $("#pass_no_edit").val();
+            var departure_airport = $("#departure_airport_edit").val();
+            var arrival_airport = $("#arrival_airport_edit").val();
+            var flight_no = $("#flight_no_edit").val();
+            var autoincreid = $("#edit_passengerid").val();
+            var data = {'passenger_name':pass_name,'passport_number':pass_no,'dept_airport':departure_airport,'arrive_airport':arrival_airport,'flight_number':flight_no}
+            $.ajax({
+              type: 'PUT',
+              data: data,
+              dataType:JSON,
+              url: 'http://127.0.0.1:8000/passengerdetails/'+ autoincreid+"/",
+              success: function(data) {
+                  alert(JSON.stringify(data));
+              },
+              error: function(error) {
+                alert("Record Updated");
+                $("#Edit1").toggle();
+                $.ajax({
+                  type: 'GET',
+                  url: 'http://127.0.0.1:8000/passengerdetails/',
+                  success: function(data) {
+                    //alert(JSON.stringify(data));
+                    $.each(data, function (key, val) {
+                        returntable += "<tr><td>"+autoid+"</td><td>"+val.passenger_name+"</td><td>"+val.passport_number+"</td><td>"+val.dept_airport+"</td><td>"+val.arrive_airport+"</td><td>"+val.flight_number+"</td><td><i class='fa fa-edit editPassenger' passenger-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td><td><i class='fa fa-trash deletepassenger' delete-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td></tr>";
+                        autoid = autoid + 1;
+                        // alert(val.id);
+                    });
+                    $("#passengertable").html(returntable);
+                  },
+                  error: function(error) {
+                    alert("Error while retriving flight passenger list");
+                  }
+                });
+              }
+            });
+        });
+
+        $(document).on('click', '.deletepassenger', function () {
+          
+          var passengerid = $(this).attr("delete-id");
+          //alert(passengerid);
+          var returntable = "";
+          var autoid = 1;
+          if (confirm("Are you sure you want to delete?")) {
+            $.ajax({
+            type: 'DELETE',
+            url: 'http://127.0.0.1:8000/passengerdetails/'+passengerid+"/",
+            success: function(data) {
+              $.ajax({
+              type: 'GET',
+              url: 'http://127.0.0.1:8000/passengerdetails/',
+              success: function(data) {
+                //alert(JSON.stringify(data));
+                $.each(data, function (key, val) {
+                  returntable += "<tr><td>"+autoid+"</td><td>"+val.passenger_name+"</td><td>"+val.passport_number+"</td><td>"+val.dept_airport+"</td><td>"+val.arrive_airport+"</td><td>"+val.flight_number+"</td><td><i class='fa fa-edit editPassenger' passenger-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td><td><i class='fa fa-trash deletepassenger' delete-id='"+val.id+"' aria-hidden='true' style='cursor:pointer'></i></td></tr>";
+                  autoid = autoid + 1;
+                    // alert(val.id);
+                });
+                $("#passengertable").html(returntable);
+              },
+              error: function(error) {
+                alert("Error while retriving flight passenger list");
+              }
+        });
+            },
+            error: function(error) {
+              alert("Error while deleting flight passenger");
+            }
+          });
+          }
+          return false;
+          
+        });
+
+
+        $("#addrecord").click(function() {
+          $("#pass_name").val("");
+          $("#pass_no").val("");
+          $("#departure_airport").val("");
+          $("#arrival_airport").val("");
+          $("#flight_no").val("");
+          $("#image").val("");
+          $('#scancheckimage').attr('src', "{% static '/images/dummy.jpg' %}");
+          $("#waitforaialgorithm").hide();
+          $("#saverecord").hide();
+          $("#scanpassengers").show();
+          $("#Create").toggle();
+        });
+        $("#editrecord1").click(function() {
+          $("#Edit1").toggle();
+        });
+        $("#editrecord2").click(function() {
+          $("#Edit2").toggle();
+        });
+      });
+      // $(document).ready(function() {
+      //   $("#editrecord1").click(function() {
+      //     $("#Edit1").toggle();
+      //   });
+      // });
+      // $(document).ready(function() {
+      //   $("#editrecord2").click(function() {
+      //     $("#Edit2").toggle();
+      //   });
+      // });
+
+      function deleteItem() {
+        if (confirm("Are you sure?")) {
+          // my deletion code
+        }
+        return false;
+      }
+    </script>
+  </body>
+</html>
