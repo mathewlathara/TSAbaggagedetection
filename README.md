@@ -1,6 +1,8 @@
 # TSAbaggagedetection
 This is a TSA baggage detection project using tensorflow
 
+The required dependecies of the project are mentioned in **[requirements.txt]** file. The python version of choice was Python 3.6
+
 The Project aims to build a machine learning algorithm to detect dangerous objects in baggages in TSA atmosphere.
 
 Tensorflow and Django are the main frameworks used for this project.
