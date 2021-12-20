@@ -13,7 +13,7 @@ To deploy the app, we need to type in few commands.
 
 Remember, the database used for this project is Mysql. The username and password configurations can be changed from setting.py file in "TSAbaggagedetection/luggageproject/"
 
-2. Next "python manage.py migrate" to create the database structure.
+2. Next execute "python manage.py migrate" to create the database structure.
 
 The app is designed to work on port number 8000. If there is any change needed, then it could be modified in settings.py file. 
 
